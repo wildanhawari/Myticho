@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\BankResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\BankResource\RelationManagers;
+use Filament\Tables\Columns\TextColumn;
 
 class BankResource extends Resource
 {
@@ -42,7 +43,14 @@ class BankResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('bank_name')
+                ->searchable(),
+
+                TextColumn::make('bank_account_name')
+                ->searchable(),
+
+                TextColumn::make('bank_account_number')
+                ->searchable(),
             ])
             ->filters([
                 //

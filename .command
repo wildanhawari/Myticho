@@ -27,3 +27,5 @@ php artisan cache:clear
 php artisan config:clear
 php artisan view:clear
 
+path login:
+vendor\filament\filament\src\Http\Middleware\Authenticate.php
