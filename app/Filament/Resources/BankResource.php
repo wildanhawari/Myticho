@@ -8,12 +8,14 @@ use Filament\Tables;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Forms\Components\FileUpload;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\BankResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\BankResource\RelationManagers;
-use Filament\Tables\Columns\TextColumn;
 
 class BankResource extends Resource
 {
@@ -29,13 +31,17 @@ class BankResource extends Resource
                 ->required()
                 ->maxLength(255),
 
-                TextInput::make('bank_account_number')
-                ->required()
-                ->numeric(),
-
                 TextInput::make('bank_account_name')
                 ->required()
                 ->maxLength(255),
+
+                FileUpload::make('icon')
+                ->required()
+                ->image(),
+
+                TextInput::make('bank_account_number')
+                ->required()
+                ->numeric(),
             ]);
     }
 
@@ -43,6 +49,8 @@ class BankResource extends Resource
     {
         return $table
             ->columns([
+                ImageColumn::make('icon'),
+
                 TextColumn::make('bank_name')
                 ->searchable(),
 

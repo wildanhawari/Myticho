@@ -42,7 +42,7 @@ class Jewelry extends Model
         return $this->hasMany(JewelrySize::class);
     }
 
-    public function cart() : BelongsTo {
-        return $this->belongsTo(Cart::class);
+    public function cart() : HasMany {
+        return $this->HasMany(Cart::class);
     }
 }

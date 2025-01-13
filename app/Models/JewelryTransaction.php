@@ -19,6 +19,7 @@ class JewelryTransaction extends Model
         'proof',
         'bank_id',
         'is_paid',
+        'transaction_trx_id',
     ];
 
     public static function generateUniqueTrxId() {
@@ -26,8 +27,13 @@ class JewelryTransaction extends Model
         $datetime = date('Ymdhis');
         do {
             $randString = $prefix . $datetime . mt_rand(1000,9999);
-        } while (self::where('transation_trx_id', $randString)->exists());
+        } while (self::where('transaction_trx_id', $randString)->exists());
 
         return $randString;
+    }
+
+    public function bank()
+    {
+        return $this->belongsTo(Bank::class, 'bank_id');
     }
 }

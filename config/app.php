@@ -125,6 +125,7 @@ return [
 
     'provider' => [
         Spatie\Permission\PermissionServiceProvider::class,
+        RealRashid\SweetAlert\SweetAlertServiceProvider::class,
     ],
 
 ];

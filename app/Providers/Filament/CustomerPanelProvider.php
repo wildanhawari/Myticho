@@ -23,6 +23,10 @@ class CustomerPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
+        Authenticate::redirectUsing(function ($request) {
+            return route('filament.customer.auth.login'); // Redirect to the Filament login route
+        });
+        
         return $panel
             ->id('customer')
             ->path('/')
@@ -34,7 +38,7 @@ class CustomerPanelProvider extends PanelProvider
             ->discoverResources(in: app_path('Filament/Customer/Resources'), for: 'App\\Filament\\Customer\\Resources')
             ->discoverPages(in: app_path('Filament/Customer/Pages'), for: 'App\\Filament\\Customer\\Pages')
             ->pages([
-                
+
             ])
             ->discoverWidgets(in: app_path('Filament/Customer/Widgets'), for: 'App\\Filament\\Customer\\Widgets')
             ->widgets([

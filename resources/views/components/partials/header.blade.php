@@ -17,12 +17,12 @@
                     <i class="bi bi-person fs-4"></i>
                 </a>
 
-                <a href="/cart" class="text-dark position-relative">
+                <a href="{{ route('cart.index') }}" class="text-dark position-relative">
                     <i class="bi bi-cart fs-4"></i>
                     <!-- Cart Item Count Badge -->
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cartCount">
+                    {{-- <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cartCount">
                         3
-                    </span>
+                    </span> --}}
                 </a>
             </div>
         </div>
@@ -64,8 +64,8 @@
         <!-- Footer Buttons -->
         <div class="menu-footer">
             @guest
-                <button class="btn btn-dark">Login</button>
-                <button class="btn btn-outline-dark">Registration</button>
+                <a href="{{ route('filament.customer.auth.login') }}" class="btn btn-dark">Login</a>
+                <a href="{{ route('filament.customer.auth.register') }}" class="btn btn-outline-dark">Registration</a>
             @endguest
             @auth
                 <form action="{{ route('filament.customer.auth.logout') }}" method="POST">

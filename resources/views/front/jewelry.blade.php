@@ -5,7 +5,7 @@
 
 @section('content')
     <div class="container py-5 mt-lg-3 w-50">
-        <h4 class="text-center mb-2">Bracelets</h4>
+        <h4 class="text-center mb-2">{{ $category->name }}</h4>
         <p class="text-center mb-lg-1">
             Worn on their own, as a pair or around the wrist, the bracelets designed by Victoire de Castellane are delicate,
             feminine collectible treasures.
@@ -24,32 +24,28 @@
             </select>
         </div> --}}
             <div class="row g-3 g-md-4">
-                <!-- Product 5 -->
-                <div class="col">
-                    <div class="card">
-                        <img src="../assets/bracelet/gelang5.jpg" class="card-img-top" alt="Gold Earrings">
-                        <div class="card-body">
-                            <h5 class="card-title">Lock n Love Bracelet</h5>
-                            <p class="card-text">Rp 700.000,00 IDR</p>
-                            <button class="btn btn-custom-grey add-to-cart"
-                                onclick="addToCart('Lock n Love Bracelet', 700000)">Add to Cart</button>
-                        </div>
-                    </div>
-                </div>
-                @forelse ($jewelries as $jewelry)
+                @forelse ($category->jewelries as $jewelry)
                     <!-- Product Item -->
                     <div class="col-6 col-md-4">
                         <div class="text-center">
-                            <img src="{{ Storage::url($jewelry->thumbnail) }}" alt="Haru White Navy" class="img-fluid mb-3"
-                                style="max-height: 250px; object-fit: contain;">
-                            <p class="mb-1 fw-bolder">{{ $jewelry->name }}</p>
-                            <p class="mb-1 text-muted">Rp {{ number_format($jewelry->price, 2, ',', '.') }}</p>
-                            <button class="btn btn-custom-grey add-to-cart"
-                                onclick="addToCart('{{ $jewelry->name }}', {{ $jewelry->price }})">Add to Cart</button>
+                            <a href="{{ route('front.detail', ['category' => $category->slug, 'jewelry' => $jewelry->slug]) }}">
+                                <img src="{{ Storage::url($jewelry->thumbnail) }}" alt="{{ $jewelry->name }}" class="img-fluid mb-3"
+                                     style="max-height: 250px; object-fit: contain;">
+                                <p class="mb-1 fw-bolder">{{ $jewelry->name }}</p>
+                                <p class="mb-1 text-muted">Rp {{ number_format($jewelry->price, 2, ',', '.') }}</p>
+                            </a>
+                            {{-- <button class="btn btn-primary add-to-cart"
+                                onclick="addToCart('{{ $jewelry->name }}', {{ $jewelry->price }})">Add to Cart</button> --}}
+                                {{-- <form action="{{ route('cart.add', $jewelry->id) }}" method="post">
+                                    @csrf
+                                    <input type="hidden" name="jewelry_id" value="{{ $jewelry->id }}">
+                                    <input type="hidden" name="quantity" value="1">
+                                    <button type="submit" class="btn btn-primary add-to-cart">Add to cart</button>
+                                </form> --}}
                         </div>
                     </div>
                 @empty
-                    <p>Upsss is Empty</p>
+                    <p class="text-center">Upsss is Empty</p>
                 @endforelse
             </div>
         </div>
@@ -60,30 +56,5 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
         </script>
-
-        <script>
-            // Function to add product to cart
-            function addToCart(productName, price) {
-                // Get existing cart from sessionStorage or initialize an empty array
-                let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
-
-                // Check if product already exists in cart
-                let productIndex = cart.findIndex(item => item.name === productName);
-                if (productIndex >= 0) {
-                    // If the product already exists, increase quantity
-                    cart[productIndex].quantity += 1;
-                } else {
-                    // If the product is not in the cart, add it
-                    cart.push({
-                        name: productName,
-                        price: price,
-                        quantity: 1
-                    });
-                }
-
-                // Save updated cart back to sessionStorage
-                sessionStorage.setItem('cart', JSON.stringify(cart));
-
-            }
     @endpush
 @endsection

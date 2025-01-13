@@ -16,6 +16,9 @@ php artisan make:filament-resource Cart
 php artisan make:filament-resource JewelryTransaction
 php artisan make:filament-resource User
 
+php artisan make:controller FrontController
+php artisan make:controller CartController
+
 create user:
 php artisan make:filament-user
 

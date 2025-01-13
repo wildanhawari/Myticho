@@ -13,6 +13,7 @@
     @stack('after-styles')
 </head>
 <body>
+
     @include('components.partials.header', ['categories' => $categories ?? []])
 
     @yield('content')
@@ -21,5 +22,6 @@
 
     @stack('after-scripts')
 
+    @include('sweetalert::alert')
 </body>
 </html>

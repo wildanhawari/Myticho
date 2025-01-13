@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Cart extends Model
 {
@@ -19,7 +20,7 @@ class Cart extends Model
         'grand_total_price',
     ];
 
-    public function jewelries() : HasMany {
-        return $this->hasMany(Jewelry::class);
+    public function jewelry() : BelongsTo {
+        return $this->belongsTo(Jewelry::class, 'jewelry_id');
     }
 }
