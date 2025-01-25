@@ -14,13 +14,15 @@ return new class extends Migration
         Schema::create('jewelry_transactions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('jewelry_id')->constrained()->cascadeOnDelete();
-            $table->unsignedInteger('quantity');
+            $table->foreignId('jewelry_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->unsignedInteger('quantity')->nullable();
+            $table->string('transaction_trx_id');
             $table->unsignedBigInteger('sub_total_amount');
             $table->unsignedBigInteger('grand_total_amount');
             $table->string('proof');
             $table->foreignId('bank_id')->constrained()->cascadeOnDelete();
             $table->boolean('is_paid')->default(false);
+            $table->enum('status', ['unpaid', 'checking', 'paid', 'processing order', 'in delivery', 'success'])->default('unpaid');
             $table->softDeletes();
             $table->timestamps();
         });

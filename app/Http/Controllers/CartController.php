@@ -13,7 +13,8 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class CartController extends Controller
 {
-    public function index() {
+    public function index()
+    {
         $categories = Category::all();
         $cartItems = Cart::where('user_id', Auth::id())->with('jewelry')->get();
         // $latestPhotos = $packageTour->package_photos()->orderByDesc('id')->take(3)->get();
@@ -32,6 +33,7 @@ class CartController extends Controller
         $request->validate([
             'jewelry_id' => 'required|exists:jewelries,id', // Pastikan jewelry_id ada di tabel jewelries
             'quantity' => 'required|integer|min:1',        // Pastikan quantity adalah integer dan lebih dari 0
+            'size' => 'required|integer'
         ]);
 
         // Mulai transaksi untuk memastikan integritas data
@@ -39,14 +41,15 @@ class CartController extends Controller
             $userId = Auth::id(); // Ambil ID user yang sedang login
             $jewelryId = $request->jewelry_id;
             $quantity = $request->quantity;
+            $size = $request->size;
 
             // Ambil data perhiasan untuk menghitung harga
             $jewelry = Jewelry::findOrFail($jewelryId);
 
             // Cari item di keranjang user saat ini
             $cartItem = Cart::where('user_id', $userId)
-                            ->where('jewelry_id', $jewelryId)
-                            ->first();
+                ->where('jewelry_id', $jewelryId)
+                ->first();
 
             if ($cartItem) {
                 // Jika item sudah ada, tambahkan quantity
@@ -54,7 +57,7 @@ class CartController extends Controller
                 $cartItem->total_price = $cartItem->quantity * $jewelry->price;
                 // Hitung grand total untuk semua item di keranjang user
                 $grandTotalPrice = Cart::where('user_id', $userId)
-                ->sum('total_price');
+                    ->sum('total_price');
 
                 $cartItem->save();
             } else {
@@ -62,6 +65,7 @@ class CartController extends Controller
                 Cart::create([
                     'user_id' => $userId,
                     'jewelry_id' => $jewelryId,
+                    'size' => $size,
                     'quantity' => $quantity,
                     'total_price' => $jewelry->price * $quantity,
                     'grand_total_price' => $jewelry->price * $quantity,
@@ -70,7 +74,43 @@ class CartController extends Controller
         });
 
         toast()
-        ->success('Success! Your Dream Jewelry Awaits 💎', 'Head over to your cart and make it yours today!');
+            ->success('Success! Your Dream Jewelry Awaits 💎', 'Head over to your cart and make it yours today!');
         return redirect()->back();
+    }
+
+    public function addQuantity(Jewelry $jewelry)
+    {
+        $userId = Auth::id();
+        $cartItem = Cart::where('user_id', $userId)
+            ->where('jewelry_id', $jewelry->id)
+            ->first();
+
+        if ($cartItem) {
+            DB::transaction(function () use ($cartItem, $jewelry) {
+                $cartItem->quantity += 1;
+                $cartItem->total_price = $cartItem->quantity * $jewelry->price;
+                $cartItem->save();
+            });
+        }
+
+        return redirect()->route('cart.index');
+    }
+
+    public function removeQuantity(Jewelry $jewelry)
+    {
+        $userId = Auth::id();
+        $cartItem = Cart::where('user_id', $userId)
+            ->where('jewelry_id', $jewelry->id)
+            ->first();
+
+        if ($cartItem && $cartItem->quantity > 1) {
+            DB::transaction(function () use ($cartItem, $jewelry) {
+                $cartItem->quantity -= 1;
+                $cartItem->total_price = $cartItem->quantity * $jewelry->price;
+                $cartItem->save();
+            });
+        }
+
+        return redirect()->route('cart.index');
     }
 }

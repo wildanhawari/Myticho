@@ -13,7 +13,8 @@
 
             <!-- Icons Profile dan Cart -->
             <div class="d-flex position-absolute end-0 pe-5 align-items-center">
-                <a href="/profile" class="text-dark me-4">
+
+                <a href="{{ route('profile.setting') }}" class="text-dark me-4">
                     <i class="bi bi-person fs-4"></i>
                 </a>
 
@@ -62,7 +63,7 @@
         </a> --}}
 
         <!-- Footer Buttons -->
-        <div class="menu-footer">
+        {{-- <div class="menu-footer">
             @guest
                 <a href="{{ route('filament.customer.auth.login') }}" class="btn btn-dark">Login</a>
                 <a href="{{ route('filament.customer.auth.register') }}" class="btn btn-outline-dark">Registration</a>
@@ -74,6 +75,6 @@
                 </form>
             @endauth
 
-        </div>
+        </div> --}}
     </div>
 </div>

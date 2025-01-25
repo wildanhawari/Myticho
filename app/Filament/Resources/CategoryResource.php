@@ -17,6 +17,7 @@ use Filament\Tables\Columns\TextInputColumn;
 use App\Filament\Resources\CategoryResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\CategoryResource\RelationManagers;
+use Filament\Forms\Components\Textarea;
 
 class CategoryResource extends Resource
 {
@@ -29,6 +30,10 @@ class CategoryResource extends Resource
         return $form
             ->schema([
                 TextInput::make('name')
+                ->required()
+                ->maxLength(255),
+
+                Textarea::make('about')
                 ->required()
                 ->maxLength(255),
 

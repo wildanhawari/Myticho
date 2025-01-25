@@ -10,6 +10,7 @@
 
         <form action="{{ route('front.checkoutProcess') }}" method="POST" enctype="multipart/form-data">
             @csrf
+            @method("POST")
             <input type="hidden" name="jewelry_id" value="{{ $jewelry['id'] }}">
             <input type="hidden" name="quantity" value="{{ $data['quantity'] }}">
 
@@ -20,9 +21,9 @@
                     <div class="card mb-4">
                         <div class="card-body">
                             <h5 class="card-title mb-3">Alamat Pengiriman</h5>
-                            <p class="mb-1"><strong>Rumah · Wildan Hawari</strong></p>
+                            <p class="mb-1"><strong>Rumah · {{ Auth::user()->name }}</strong></p>
                             <p class="text-muted">Jl. Beji No.99, Universitas Gunadarma, Depok, Jawa Barat</p>
-                            <button class="btn btn-outline-secondary btn-sm" type="button">Ganti</button>
+                            {{-- <button class="btn btn-outline-secondary btn-sm" type="button">Ganti</button> --}}
                         </div>
                     </div>
 

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('jewelry_id')->constrained()->cascadeOnDelete();
+            $table->unsignedInteger('size')->nullable();
             $table->unsignedInteger('quantity');
             $table->unsignedBigInteger('total_price');
             $table->unsignedBigInteger('grand_total_price');

@@ -18,6 +18,7 @@ class Cart extends Model
         'quantity',
         'total_price',
         'grand_total_price',
+        'size',
     ];
 
     public function jewelry() : BelongsTo {

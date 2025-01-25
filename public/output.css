@@ -174,9 +174,9 @@ p {
     padding: 0;
     font-size: 1rem;
 }
-.special-instructions textarea {
+/* .special-instructions textarea {
     height: 100px;
-}
+} */
 .checkout-btn {
     border-radius: 0;
 }

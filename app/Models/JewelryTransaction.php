@@ -20,6 +20,7 @@ class JewelryTransaction extends Model
         'bank_id',
         'is_paid',
         'transaction_trx_id',
+        'status',
     ];
 
     public static function generateUniqueTrxId() {
@@ -35,5 +36,20 @@ class JewelryTransaction extends Model
     public function bank()
     {
         return $this->belongsTo(Bank::class, 'bank_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function jewelry()
+    {
+        return $this->belongsTo(Jewelry::class);
+    }
+
+    public function items()
+    {
+        return $this->hasMany(TransactionItem::class, 'jewelry_transaction_id');
     }
 }
